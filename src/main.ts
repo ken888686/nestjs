@@ -11,11 +11,20 @@ import { HttpExceptionFilter } from './filter/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Exception filter
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Swagger
   setupSwagger(app);
 
+  // Configuration
   const configService = app.get(ConfigService);
   const port = parseInt(configService.get('PORT'), 10);
+
+  // CORS
+  app.enableCors();
+
   await app.listen(port);
 }
 
