@@ -11,4 +11,9 @@ export class AppController {
   getHello() {
     return this.appService.getHello();
   }
+
+  @Get('todo')
+  getTodo() {
+    return this.appService.getTodo();
+  }
 }
