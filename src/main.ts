@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
   DocumentBuilder,
@@ -12,7 +13,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
   setupSwagger(app);
-  await app.listen(3000);
+
+  const configService = app.get(ConfigService);
+  const port = parseInt(configService.get('PORT'), 10);
+  await app.listen(port);
 }
 
 function setupSwagger(app: INestApplication) {
